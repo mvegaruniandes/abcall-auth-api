@@ -1,0 +1,48 @@
+services:
+  api-auth:
+    build:
+      context: .
+      dockerfile: dev.Dockerfile
+    container_name: abcall-auth-local-api
+    restart: always
+    volumes:
+      - ".:/app"
+    ports:
+      - "5004:3004"
+    env_file:
+      - .env.local
+    tty: true
+    links:
+      - db
+    depends_on:
+      - db
+    networks:
+      - auth_net
+      - app_net
+
+      
+  db:
+    build:
+      context: .
+      dockerfile: db.Dockerfile
+    env_file:
+      - .env.db
+    container_name: auth-local-db
+    volumes:
+      - "./data/postgresql:/var/lib/postgresql"
+      - "./docker/postgresql:/docker-entrypoint-initdb.d"
+    ports:
+      - "5440:5432"
+    networks:
+      - auth_net
+
+
+
+
+networks:
+  auth_net:
+    name: auth_net
+    driver: bridge
+  app_net:
+    name: app_net
+    driver: bridge

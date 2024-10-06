@@ -1,0 +1,60 @@
+###################################
+# abcall-customer-api
+###################################
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: abcall-auth-api
+  labels:
+    app: abcall-auth-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: abcall-auth-api
+  template:
+    metadata:
+      labels:
+        app: abcall-auth-api
+    spec:
+      containers:
+        - name: abcall-auth-api
+          image: abcall.azurecr.io/abcall-auth-api:1.0.0
+          env:
+            - name: "FLASK_APP"
+              valueFrom:
+                configMapKeyRef:
+                  name: auth-configmap
+                  key: FLASK_APP
+            - name: "FLASK_ENV"
+              valueFrom:
+                configMapKeyRef:
+                  name: auth-configmap
+                  key: FLASK_ENV
+            - name: "APP_NAME"
+              valueFrom:
+                configMapKeyRef:
+                  name: auth-configmap
+                  key: APP_NAME
+            - name: "DATABASE_URI"
+              valueFrom:
+                secretKeyRef:
+                  name: auth-secrets
+                  key: DATABASE_URI
+          ports:
+            - containerPort: 3006
+          imagePullPolicy: Always
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: abcall-auth-api-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: abcall-auth-api
+  ports:
+    - protocol: TCP
+      port: 3004
+      targetPort: 3004
