@@ -3,7 +3,7 @@ from flask import jsonify, request
 import logging
 import requests
 from ...application.auth_service import AuthService
-from ...infrastructure.databases.auth_users_customer_postgresql_repository import AuthUserCustomerRepository
+from ...infrastructure.databases.auth_users_customer_postgresql_repository import AuthCustomerPostgresqlRepository
 from http import HTTPStatus
 from ...utils import Logger
 
@@ -15,7 +15,7 @@ class AuthUser(Resource):
 
     def __init__(self):
         config = Config()
-        self.auth_user_customer_repository = AuthUserCustomerRepository(config.DATABASE_URI)
+        self.auth_user_customer_repository = AuthCustomerPostgresqlRepository(config.DATABASE_URI)
         self.service = AuthService(None,self.auth_user_customer_repository)
 
 
