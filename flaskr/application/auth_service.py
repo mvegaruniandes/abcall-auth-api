@@ -1,9 +1,8 @@
 from typing import List
 from ..domain.models import Auth
 import requests
-from ..domain.interfaces.auth_repository import AuthRepository
+from ..domain.interfaces.AuthRepository import AuthRepository
 from ..domain.interfaces.AuthUserCustomerRepository import AuthUserCustomerRepository
-from ..infrastructure.mappers import AuthnMapper
 import uuid
 from datetime import datetime
 from ..utils import Logger

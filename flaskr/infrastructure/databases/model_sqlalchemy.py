@@ -13,7 +13,7 @@ class AuthUserModelSqlAlchemy(Base):
     id = Column(PG_UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
 
 
-class AuthUserCustomer(Base):
+class AuthUserCustomerModelSqlAlchemy(Base):
     __tablename__ = 'auth_user_customer'
     id = Column(PG_UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     auth_user_id = Column(PG_UUID(as_uuid=True),ForeignKey('auth_user.id'))
