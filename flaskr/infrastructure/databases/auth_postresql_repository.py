@@ -17,7 +17,7 @@ class AuthPostgresqlRepository(AuthRepository):
         Base.metadata.create_all(self.engine)
 
     def list_users_by_role(self,role_id) -> List[Auth]:
-        log.info(f'Receive request AuthPostgresqlRepository --->')
+        log.info('Receive request AuthPostgresqlRepository --->')
         session = self.Session()
         try:
             auth_users= session.query(AuthUserModelSqlAlchemy).filter_by(role_id=role_id).all()
