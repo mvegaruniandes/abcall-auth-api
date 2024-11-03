@@ -14,6 +14,12 @@ class AuthService:
         return self.auth_user_customer_repository.list_users_by_customer(customer_id)
 
     def list_users_by_role(self,role_id):
-        self.log.info(f'Receive AuthService list_users_by_role')
+        self.log.info('Receive AuthService list_users_by_role')
         return self.auth_repository.list_users_by_role(role_id)
+    
+
+    def get_company_by_user(self,user_id):
+         self.log.info('returning  company by user id')
+         return self.auth_user_customer_repository.get_company_by_user(user_id)
+
     

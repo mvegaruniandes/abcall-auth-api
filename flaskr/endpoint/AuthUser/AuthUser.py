@@ -26,6 +26,8 @@ class AuthUser(Resource):
             return self.getUsersByCustomer()
         elif action == 'getUsersByRole':
             return self.getUsersByRole()
+        elif action =='getCompanyByUser':
+            return self.getCompanyByUser()
         else:
             return {"message": "Action not found"}, 404
         
@@ -55,5 +57,20 @@ class AuthUser(Resource):
         except Exception as ex:
             log.error(f'Some error occurred trying to get the data from {role_id}: {ex}')
             return {'message': 'Something was wrong trying to get rate by role data'}, HTTPStatus.INTERNAL_SERVER_ERROR
+    
+    
+    def getCompanyByUser(self):
+        try:
+            user_id = request.args.get('user_id')
+            log.info(f'Receive request to get company by user {user_id}')
+            user_company = self.service.get_company_by_user(user_id)
+            if user_company:
+                user_company_s=user_company.to_dict()
+                return user_company_s, HTTPStatus.OK
+            else:
+                return None, HTTPStatus.OK
+        except Exception as ex:
+            log.error(f'Some error occurred trying to get the data company by user: {ex}')
+            return {'message': 'Something was wrong trying to get data company by user'}, HTTPStatus.INTERNAL_SERVER_ERROR
     
     
